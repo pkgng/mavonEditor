@@ -1,7 +1,5 @@
 # mavonEditor
 
-![npm](https://nodei.co/npm/mavon-editor.png?downloads=true&downloadRank=true&stars=true)
-
 > 基于Vue的markdown编辑器
 
 ### [English Documents](./README-EN.md)
