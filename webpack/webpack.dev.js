@@ -36,7 +36,7 @@ var config = {
     devServer: {
         historyApiFallback: true,
         disableHostCheck: true,
-        host: 'localhost',
+        host: '192.168.56.89',
         port: '9090'
         // hot: true,
         // noInfo: true

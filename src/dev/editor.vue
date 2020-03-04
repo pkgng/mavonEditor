@@ -1,6 +1,6 @@
 <template>
     <div id="editor">
-        <mavon-editor style="height: 100%"></mavon-editor>
+        <mavon-editor style="height: 100%" :subfield="false" defaultOpen="preview"></mavon-editor>
     </div>
 </template>
 <script>

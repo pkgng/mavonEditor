@@ -1,32 +1,14 @@
 <template>
     <div id="app">
-        <select @change="opchange" class="page-lang">
-            <option value="zh-CN">中文</option>
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-            <option value="de">Deutsch</option>
-            <option value="ja">日本語 </option>
-            <option value="pt-BR">Português</option>
-            <option value="ru">Русский</option>
-        </select>
         <section class="page-header">
             <h1 class="project-name">mavonEditor</h1>
             <h3 class="project-tagline">{{d_words.sub_title}}</h3>
-            <a href="https://github.com/hinesboy/mavonEditor" class="btn">View on GitHub</a>
-            <a href="https://github.com/hinesboy/mavonEditor/zipball/master" class="btn">Download .zip</a>
-            <a href="https://github.com/hinesboy/mavonEditor/master" class="btn">Download .tar.gz</a>
         </section>
+
+
+
+
         <div v-if="!screen_phone" class="item">
-            <h2 class="item-header">
-                {{d_words.default_setting}}
-            </h2>
-            <div class="item-button">
-              <button @click="clearCache">clear cache</button>
-              <button @click="uploadimg">upload</button>
-              <button @click="imgreplace">imgreplace</button>
-              <input type="text" v-model="imgName" />
-              <button @click="imgdelete">delete</button>
-            </div>
             <mavon-editor ref=md :subfield="subfield" :toolbarsFlag="toolbarsFlag" :editable="editable"
                           :language="d_language" @change="change" @save="saveone" :ishljs="true" class="item-editor" v-model="help1"
                           :autofocus="autofocus"
@@ -39,42 +21,23 @@
                           :transition="true"
                           box-shadow-style="0 2px 12px 0 rgba(0, 0, 0, 0.1)"
                           toolbars-background="#ffffff"
-                          preview-background="#fbfbfb">
-                <!-- <template slot="left-toolbar-before">
-                    左工具栏前
-                </template>
-                <template slot="left-toolbar-after">
-                    左工具栏后
-                </template>
-
-                <template slot="right-toolbar-before">
-                    右工具栏前
-                </template>
-                <template slot="right-toolbar-after">
-                    右工具栏后
-                </template> -->          
+                          preview-background="#fbfbfb">      
             </mavon-editor>
-            <button ref="diy" type="button" @click="$click('selftest')" class="op-icon fa fa-mavon-align-left"
-                aria-hidden="true" title="自定义"></button>
         </div>
-        <!--自定义-->
+        <!---------------------------------------------------------------->
         <div v-if="screen_phone" class="item">
-            <h2 class="item-header">
-                {{d_words.customize_setting}}
-            </h2>
             <mavon-editor :language="d_language" @save="savetwo" :toolbars="toolbars" class="item-editor"
-                          v-model="help2"></mavon-editor>
+                          v-model="help2" :subfield="false" defaultOpen="preview"></mavon-editor>
         </div>
-        <div class="item">
-      <span style="display: block;margin: 30px 0 15px 0;color: #1e6bb8" class="">
-        {{d_words.mark}}
-      </span>
-        </div>
-        <div class="item">
+
+
+
+
+        <!-- <div class="item" style="background-color: yellow">
             <h2 class="item-header">
-                {{d_words.detail}}<a href="https://github.com/hinesboy/mavonEditor">GitHub</a>
+               bottom
             </h2>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -287,16 +250,16 @@
         box-sizing border-box
         padding 90px 15px
         width 100%
-        height 380px
+        height 180px
         color #fff
         text-align center
         background-color #159957
         background-image linear-gradient(120deg, #155799, #159957)
         @media only screen and (max-width 958px)
-            height 300px
+            height 100px
             padding 60px 15px
         @media only screen and (max-width 768px)
-            height 370px
+            height 170px
             padding 50px 15px
         .project-name
             margin-top 0
@@ -346,13 +309,8 @@
             width 92%
             margin-left 4%
         .item-header
-            margin-top: 3.5rem
-            margin-bottom: 2rem
             font-weight: normal
             color: #159957
-            @media only screen and (max-width 768px)
-                margin-top: 2rem
-                margin-bottom: 1rem
         .item-button
             margin-bottom: 4rem
         .item-editor
