@@ -299,25 +299,25 @@ export default {
             d_preview_imgsrc: null, // 图片预览地址
             s_external_link: {
                 markdown_css: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css';
+                    return 'https://cdn.bootcdn.net/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css';
                 },
                 hljs_js: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js';
+                    return 'https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js';
                 },
                 hljs_lang: function(lang) {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/' + lang + '.min.js';
+                    return 'https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/languages/' + lang + '.min.js';
                 },
                 hljs_css: function(css) {
                     if (hljsCss[css]) {
-                        return 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/' + css + '.min.css';
+                        return 'https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/styles/' + css + '.min.css';
                     }
                     return '';
                 },
                 katex_js: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js';
+                    return 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.11.1/katex.min.css';
                 },
                 katex_css: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css';
+                    return 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.11.1/katex.min.css';
                 }
             },
             p_external_link: {}
