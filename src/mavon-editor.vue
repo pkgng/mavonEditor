@@ -1,26 +1,6 @@
 <template>
     <div :class="[{ 'fullscreen': s_fullScreen, 'shadow': boxShadow }]" class="v-note-wrapper markdown-body" :style="{'box-shadow': boxShadow ? boxShadowStyle : ''}">
-
         <!--工具栏-->
-        <div class="v-note-op" v-show="toolbarsFlag" :style="{'background': toolbarsBackground}">
-            <v-md-toolbar-left ref="toolbar_left" :editable="editable" :transition="transition" :d_words="d_words"
-                               @toolbar_left_click="toolbar_left_click" @toolbar_left_addlink="toolbar_left_addlink" :toolbars="toolbars"
-                               @imgAdd="$imgAdd" @imgDel="$imgDel" @imgTouch="$imgTouch" :image_filter="imageFilter"
-                               :class="{'transition': transition}">
-                <slot name="left-toolbar-before" slot="left-toolbar-before" />
-                <slot name="left-toolbar-after" slot="left-toolbar-after" />
-            </v-md-toolbar-left>
-            <v-md-toolbar-right ref="toolbar_right" :d_words="d_words" @toolbar_right_click="toolbar_right_click"
-                                :toolbars="toolbars"
-                                :s_subfield="s_subfield"
-                                :s_preview_switch="s_preview_switch" :s_fullScreen="s_fullScreen"
-                                :s_html_code="s_html_code"
-                                :s_navigation="s_navigation"
-                                :class="{'transition': transition}">
-                <slot name="right-toolbar-before" slot="right-toolbar-before" />
-                <slot name="right-toolbar-after" slot="right-toolbar-after" />
-            </v-md-toolbar-right>
-        </div>
 
         <!--编辑展示区域-->
         <div class="v-note-panel">
@@ -32,7 +12,7 @@
                     <!-- 双栏 -->
                     <v-autoTextarea ref="vNoteTextarea" :placeholder="placeholder ? placeholder : d_words.start_editor"
                                     class="content-input" :fontSize="fontSize"
-                                    lineHeight="1.5" v-model="d_value" fullHeight
+                                    lineHeight="2.1" v-model="d_value" :fullHeight="true"
                                     :style="{'background-color': editorBackground}"></v-autoTextarea>
                 </div>
             </div>
@@ -63,7 +43,6 @@
             </transition>
 
         </div>
-
         <!--帮助文档-->
         <transition name="fade">
             <div ref="help">
@@ -119,33 +98,11 @@ import {CONFIG} from './lib/config.js'
 import hljs from './lib/core/highlight.js'
 import markdown from './lib/mixins/markdown.js'
 
-import md_toolbar_left from './components/md-toolbar-left.vue'
-import md_toolbar_right from './components/md-toolbar-right.vue'
-import "./lib/font/css/fontello.css"
+// import "./lib/font/css/fontello.css"
 import './lib/css/md.css'
 export default {
     mixins: [markdown],
     props: {
-        insert: {
-            type: Object,
-            default() {
-                return {
-                    idx: 0,
-                    prefix: '',
-                    subfix: '',
-                    text: '',
-                }
-            },
-        },
-        action: {
-            type: Object,
-            default() {
-                return {
-                    idx: 0,
-                    action: '',
-                }
-            },
-        },
         scrollStyle: {  // 是否渲染滚动条样式(webkit)
             type: Boolean,
             default: true
@@ -299,25 +256,26 @@ export default {
             d_preview_imgsrc: null, // 图片预览地址
             s_external_link: {
                 markdown_css: function() {
-                    return 'https://cdn.bootcdn.net/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css';
+                    // return 'https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.css';
+                    return '/static/css/markdown.min.css';
                 },
                 hljs_js: function() {
-                    return 'https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js';
+                    return 'https://cdn.staticfile.org/highlight.js/10.1.2/highlight.min.js';
                 },
                 hljs_lang: function(lang) {
-                    return 'https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/languages/' + lang + '.min.js';
+                    return 'https://cdn.staticfile.org/highlight.js/10.1.2/languages/' + lang + '.min.js';
                 },
                 hljs_css: function(css) {
                     if (hljsCss[css]) {
-                        return 'https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/styles/' + css + '.min.css';
+                        return 'https://cdn.staticfile.org/highlight.js/10.1.2/styles/' + css + '.min.css';
                     }
                     return '';
                 },
                 katex_js: function() {
-                    return 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.11.1/katex.min.css';
+                    return 'https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.js';
                 },
                 katex_css: function() {
-                    return 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.11.1/katex.min.css';
+                    return 'https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css';
                 }
             },
             p_external_link: {}
@@ -518,9 +476,6 @@ export default {
                 }
             }
         },
-        actionFun(a) {
-            toolbar_left_click(a, this);
-        },
         toolbar_left_click(_type) {
             toolbar_left_click(_type, this);
         },
@@ -590,15 +545,9 @@ export default {
         },
         // 工具栏插入内容
         insertText(obj, {prefix, subfix, str, type}) {
+            // if (this.s_preview_switch) {
+          
             insertTextAtCaret(obj, {prefix, subfix, str, type}, this);
-        },
-        rawInsertText(i) {          
-            insertTextAtCaret(this.getTextareaDom(),
-                        {
-                            prefix: i.prefix,
-                            subfix: i.subfix,
-                            str: i.text,
-                        }, this);
         },
         insertTab() {
             insertTab(this, this.tabSize)
@@ -684,7 +633,18 @@ export default {
         $emptyHistory() {
             this.d_history = [this.d_value] // 编辑记录
             this.d_history_index = 0 // 编辑记录索引
-        }
+        },
+        rawInsert(prefix, subfix, text) {          
+            insertTextAtCaret(this.getTextareaDom(),
+                {
+                    prefix: prefix,
+                    subfix: subfix,
+                    str: text,
+                }, this);
+        },
+        action(a) {
+            toolbar_left_click(a, this);
+        },
     },
     watch: {
         d_value: function (val, oldVal) {
@@ -720,24 +680,15 @@ export default {
         },
         codeStyle: function (val) {
             this.codeStyleChange(val)
-        },
-        insert: function(gin) {
-            console.log('gin')
-            console.log(gin)
-            this.rawInsertText(gin)
-        },
-        action: function(a) {
-            this.actionFun(a.action)
         }
     },
     components: {
-        'v-autoTextarea': autoTextarea,
-        'v-md-toolbar-left': md_toolbar_left,
-        'v-md-toolbar-right': md_toolbar_right
+        'v-autoTextarea': autoTextarea
     }
 };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
+    @import "lib/css/markdown.css"
     @import "lib/css/scroll.styl"
     @import "lib/css/mavon-editor.styl"
 </style>
