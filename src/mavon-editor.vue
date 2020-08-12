@@ -648,7 +648,7 @@ export default {
     },
     watch: {
         d_value: function (val, oldVal) {
-            this.iRender();
+            // this.iRender();          // fix bug: refresh image every input
         },
         value: function (val, oldVal) {
             if (val !== this.d_value) {
@@ -672,6 +672,7 @@ export default {
             this.editableTextarea();
         },
         defaultOpen: function (val) {
+            this.iRender();         // move from d_value watch
             let default_open_ = val;
             if (!default_open_) {
                 default_open_ = this.subfield ? 'preview' : 'edit';
